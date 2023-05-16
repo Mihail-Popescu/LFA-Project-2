@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "VaN+dh5svvYmxLQ8/Iy5KnrfAAR8NMql+xpo0NcSEszxxLR/RYlO15uX3wrn5dVm3Jn4PURxpFMtW2IGQ8x7QQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\mihai\\source\\repos\\LFA_Project_2\\LFA_Project_2\\LFA_Project_2.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mihai\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

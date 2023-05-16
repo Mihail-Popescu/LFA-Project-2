@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Network</title>
+    <script type="text/javascript"
+            src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script> @* Vis.js library *@
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div id="mynetwork"></div>
+    <script type="text/javascript">
+
+        // create an array with nodes
+        var nodes = new vis.DataSet([
+            { id: 1, label: "Craiova", title: "269.504" },
+            { id: 2, label: "Bucuresti", title: "1.898.425" },
+            { id: 3, label: "Brasov", title: "253.200" },
+            { id: 4, label: "Constanta", title: "283.872" },
+            { id: 5, label: "Iasi", title: "318.012" },
+        ]);
+
+        // create an array with edges
+        var edges = new vis.DataSet([
+            { from: 1, to: 3, title: "1023", label: "Drumul A" },
+            { from: 1, to: 2, title: "23", label: "Drumul B"},
+            { from: 2, to: 4, title: "435", label: "Drumul C" },
+            { from: 2, to: 5, title: "934", label: "Drumul D" },
+            { from: 3, to: 3, title: "9345", label: "Drumul E" },
+        ]);
+
+        // Add Node
+        function addNode() {
+            var newNodeLabel = prompt("Enter the label for the new node:");
+            if (newNodeLabel !== null && newNodeLabel.trim() !== "") {
+                var newNodeId = nodes.length + 1;
+                var newNodeTitle = prompt("Enter the title for the new node:");
+                var newNode = { id: newNodeId, label: newNodeLabel, title: newNodeTitle };
+                nodes.add(newNode);
+            }
+        }
+
+        // Add Edge
+        function addEdge() {
+            var fromNode = prompt("Enter the ID of the source node:");
+            var toNode = prompt("Enter the ID of the target node:");
+            var edgeLabel = prompt("Enter the label for the new edge:");
+            if (fromNode !== null && toNode !== null && edgeLabel !== null) {
+                fromNode = parseInt(fromNode);
+                toNode = parseInt(toNode);
+                if (Number.isInteger(fromNode) && Number.isInteger(toNode)) {
+                    var newEdgeId = edges.length + 1;
+                    var newEdgeTitle = prompt("Enter the title for the new edge:");
+                    var newEdge = { id: newEdgeId, from: fromNode, to: toNode, title: newEdgeTitle, label: edgeLabel };
+                    edges.add(newEdge);
+                } else {
+                    alert("Invalid node IDs. Please enter valid integer IDs.");
+                }
+            }
+        }
+
+
+        // create a network
+        var container = document.getElementById("mynetwork");
+        var data = {
+            nodes: nodes,
+            edges: edges,
+        };
+        var options = {
+            edges: {
+                arrows: "to",
+                font: {
+                    align: "middle",
+                    color: "black",
+                },
+                labelHighlightBold: false,
+                selectionWidth: 0,
+                width: 2,
+            },
+        };
+        var network = new vis.Network(container, data, options);
+
+        // Edit Node Properties
+        network.on("doubleClick", function (params) {
+            if (params.nodes.length > 0) {
+                var nodeId = params.nodes[0];
+                var node = nodes.get(nodeId);
+                var newLabel = prompt("Enter a new label for the node:", node.label);
+                if (newLabel !== null) {
+                    var newTitle = prompt("Enter a new title for the node:", node.title);
+                    if (newTitle !== null) {
+                        node.label = newLabel;
+                        node.title = newTitle;
+                        nodes.update(node);
+                    }
+                }
+            }
+        });
+
+        // Edit Edge Properties
+        network.on("doubleClick", function (params) {
+            if (params.edges.length > 0) {
+                var edgeId = params.edges[0];
+                var edge = edges.get(edgeId);
+                var newLabel = prompt("Enter a new label for the edge:", edge.label);
+                if (newLabel !== null) {
+                    var newTitle = prompt("Enter a new title for the edge:", edge.title);
+                    if (newTitle !== null) {
+                        edge.label = newLabel;
+                        edge.title = newTitle;
+                        edges.update(edge);
+                    }
+                }
+            }
+        });
+
+        // Delete Node
+        network.on("selectNode", function (params) {
+            var nodeId = params.nodes[0];
+            nodes.remove({ id: nodeId });
+        });
+
+        // Delete Edge
+        network.on("selectEdge", function (params) {
+            var edgeId = params.edges[0];
+            edges.remove({ id: edgeId });
+        });
+
+        // Move Nodes
+        network.on("dragEnd", function (params) {
+            var nodeId = params.nodes[0];
+            var node = nodes.get(nodeId);
+            var position = network.getPositions([nodeId]);
+            node.x = position[nodeId].x;
+            node.y = position[nodeId].y;
+            nodes.update(node);
+        });
+
+        // Get Node and Edge Information for View
+        function getNodeInfo() {
+            var selectedNodeId = network.getSelectedNodes()[0];
+            var selectedEdgeId = network.getSelectedEdges()[0];
+            var nodeInfo = nodes.get(selectedNodeId);
+            var edgeInfo = edges.get(selectedEdgeId);
+
+            var info = "";
+            if (selectedNodeId) {
+                info += "Selected Node: " + selectedNodeId + "\n";
+                info += "Label: " + nodeInfo.label + "\n";
+                info += "Title: " + nodeInfo.title + "\n";
+            }
+            if (selectedEdgeId) {
+                info += "Selected Edge: " + selectedEdgeId + "\n";
+                info += "Title: " + edgeInfo.title + "\n";
+            }
+
+            alert(info);
+        }
+    </script>
+
+    <button onclick="addNode()">Add Node</button>
+    <button onclick="addEdge()">Add Edge</button>
+
+</body>
+</html>
