@@ -1,4 +1,4 @@
-## About
+## Overview
 This project was developed for the **"Limbaje Formale și Automate"** (Formal and Automated Languages) course. It is a web application that allows users to create and edit graphs, including nodes and edges. Each node and edge can have a key-value pair associated with it, enabling the representation of complex relationships and attributes.
 
 For example, the application can be used to model a road network between cities:
@@ -13,4 +13,6 @@ To run this project, you need the following:
 - **.NET 7 SDK** (you will be prompted to install it when loading the project if it’s not already installed).
 
 ## Demo
-![AppGif2](https://github.com/user-attachments/assets/8fdf3ab1-ae4c-4856-87ee-fab13c5cf7ef)
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/8fdf3ab1-ae4c-4856-87ee-fab13c5cf7ef" alt="AppGif2">
+</div>
